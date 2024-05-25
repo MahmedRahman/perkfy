@@ -49,6 +49,7 @@ class ApiManger extends GetConnect {
           },
         );
       } else {
+        print(query);
         response = await post(
           url,
           query,

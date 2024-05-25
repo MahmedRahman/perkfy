@@ -21,7 +21,7 @@ class OnboardingView extends GetView<OnboardingController> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                height: 50,
+                height: 10,
               ),
               Container(
                 width: Get.width,
@@ -63,19 +63,18 @@ class OnboardingView extends GetView<OnboardingController> {
                           ),
                         ),
 
-                        SizedBox(height: 10),
                         CustomListTile(
                           title: "Collect Stars When Placing your order",
                           subtitle: "Collect 4 Stars Per 100 EGP when grabbing your social Speciality coffee favorites",
                           icon: "assets/images/image1.svg",
                         ),
-                        SizedBox(height: 10),
+
                         CustomListTile(
                           title: "Redeem Stars for free drink",
                           subtitle: "Every 250 Stars gets you a free Drink. Any drink. Any size!",
                           icon: "assets/images/image2.svg",
                         ),
-                        SizedBox(height: 10),
+
                         CustomListTile(
                           title: "Get to Gold",
                           subtitle:

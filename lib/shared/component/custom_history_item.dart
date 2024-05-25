@@ -73,12 +73,19 @@ class CustomHistoryItem extends StatelessWidget {
           ],
         ),
         SizedBox(height: 8),
-        Text(
-          '+${gainedStars} Stars',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
+        (title == "Redeem Stars")
+            ? Text(
+                '-${gainedStars} Stars',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              )
+            : Text(
+                '+${gainedStars} Stars',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
         SizedBox(height: 8),
         Text('280 points used, 350 expire 4 months from now', style: TextStyle(color: Colors.grey)),
         SizedBox(height: 15),

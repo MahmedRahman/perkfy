@@ -6,6 +6,9 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:perkfy/app/routes/app_pages.dart';
 import 'package:perkfy/shared/component/rewards_card.dart';
 import 'package:perkfy/shared/service.auth.dart';
+import 'package:perkfy/web_serives/exception.dart';
+import 'package:perkfy/web_serives/model/api_response_model.dart';
+import 'package:perkfy/web_serives/web_services.api.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -44,33 +47,102 @@ class HomeView extends GetView<HomeController> {
                 ),
                 Row(
                   children: [
-                    Text(
-                      '0',
-                      style: TextStyle(
-                        fontFamily: 'Metropolis',
-                        fontSize: 38.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '${Get.find<AuthService>().user["points"].toString()}',
+                              style: TextStyle(
+                                fontFamily: 'Metropolis',
+                                fontSize: 38.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            SvgPicture.asset(
+                              "assets/images/start.svg",
+                            ),
+                          ],
+                        ),
+                        Text(
+                          'Collect 4 Stars for every 100EGP Spent',
+                          style: TextStyle(
+                            fontSize: 11.0,
+                            color: const Color(0xFFEFEFEF),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '${Get.find<AuthService>().user["nearestPoints"].toString()}',
+                              style: TextStyle(
+                                fontFamily: 'Metropolis',
+                                fontSize: 38.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            SvgPicture.asset(
+                              "assets/images/start.svg",
+                            ),
+                          ],
+                        ),
+                        Text(
+                          'Until next reward',
+                          style: TextStyle(
+                            fontSize: 11.0,
+                            color: const Color(0xFFEFEFEF),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
-                      width: 10,
-                    ),
-                    SvgPicture.asset(
-                      "assets/images/start.svg",
-                    ),
-                    SizedBox(
-                      width: 10,
+                      width: 5,
                     ),
                   ],
                 ),
-                Text(
-                  'Collect 4 Stars for every 100EGP Spent',
-                  style: TextStyle(
-                    fontSize: 11.0,
-                    color: const Color(0xFFEFEFEF),
-                  ),
-                ),
+
+                // Row(
+                //   children: [
+
+                //     Spacer(),
+                //     Text(
+                //       "Until next reward",
+                //       style: TextStyle(
+                //         fontSize: 11.0,
+                //         color: const Color(0xFFEFEFEF),
+                //       ),
+                //     )
+                //   ],
+                // ),
+
+//  Spacer(),
+//                     Text(
+//                       '${Get.find<AuthService>().user["nearestPoints"].toString()}',
+//                       style: TextStyle(
+//                         fontSize: 38.0,
+//                         color: Colors.white,
+//                         fontWeight: FontWeight.w500,
+//                       ),
+//                     ),
+
                 SizedBox(
                   height: 20,
                 )
@@ -88,51 +160,23 @@ class HomeView extends GetView<HomeController> {
                 ),
               ),
               child: Container(
-                // color: Colors.red,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: ListView(
                     padding: EdgeInsets.zero,
-                    //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         height: 25,
                       ),
-                      rewards_available(),
-                      SizedBox(
-                        height: 17,
-                      ),
-                      RewardsCard(
-                        image: "",
-                        PointNumber: 200.toString(),
-                        collect: 500.toString(),
-                        title: "sss",
-                        percent: .2.toString(),
-                      ),
+                      RewardsBoxView(),
                       SizedBox(
                         height: 25,
                       ),
-                      Text(
-                        'If you Collect 250 stars more you will get',
-                        style: TextStyle(
-                          fontFamily: 'Metropolis',
-                          fontSize: 15.0,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      RewardsCard(
-                        image: "",
-                        PointNumber: 200.toString(),
-                        collect: 500.toString(),
-                        title: "sss",
-                        percent: .2.toString(),
-                      ),
+                      CupsBoxView(),
                       SizedBox(
                         height: 30,
                       ),
-                      quote(),
+                      QuoteView(),
                       SizedBox(
                         height: 30,
                       ),
@@ -185,101 +229,290 @@ class HomeView extends GetView<HomeController> {
       ),
     );
   }
+}
 
-  Row rewards_available() {
-    return Row(
-      children: [
-        Text(
-          'Your Available Rewards',
-          style: TextStyle(
-            fontFamily: 'Metropolis',
-            fontSize: 15.0,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        Spacer(),
-        Text(
-          'View All',
-          style: TextStyle(
-            fontSize: 13.0,
-            color: Colors.black,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ],
-    );
+class CupsBoxController extends GetxController with StateMixin {
+  @override
+  void onInit() {
+    getCups();
+    super.onInit();
   }
 
-  Column hotdrink() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Collect To get free hot drink',
-          style: TextStyle(
-            fontFamily: 'Metropolis',
-            fontSize: 15.0,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        SizedBox(
-          height: 18,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SvgPicture.asset("assets/images/mug_1.svg"),
-            SvgPicture.asset("assets/images/mug_2.svg"),
-            SvgPicture.asset("assets/images/mug_1.svg"),
-            SvgPicture.asset("assets/images/mug_1.svg"),
-          ],
-        ),
-      ],
-    );
-  }
+  void getCups() async {
+    try {
+      ResponseModel responseModel = await WebServices().getCups();
+      var firstItems = responseModel.data["data"].take(1).toList();
 
-  Column quote() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Quote of the Day',
-          style: TextStyle(
-            fontFamily: 'Metropolis',
-            fontSize: 15.0,
-            //color: AppColors.color1,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          children: [
-            Image.asset("assets/images/quite2.png"),
-            SizedBox(
-              width: 12,
+      change(firstItems, status: RxStatus.success());
+    } on EmptyDataException {
+      change(null, status: RxStatus.empty());
+    } catch (e) {
+      change(e.toString(), status: RxStatus.error());
+    }
+  }
+}
+
+class CupsBoxView extends GetView<CupsBoxController> {
+  @override
+  Widget build(BuildContext context) {
+    return controller.obx((snapshot) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Collect To get free hot drink',
+            style: TextStyle(
+              fontFamily: 'Metropolis',
+              fontSize: 15.0,
+              fontWeight: FontWeight.w500,
             ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
+          ),
+          SizedBox(
+            height: 18,
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(
+                snapshot.length, // Assuming 'snapshot.length' is the number of images
+                (index) {
+                  return Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            Get.toNamed(
+                              Routes.CUP_DETAILES,
+                              arguments: [
+                                snapshot[index],
+                              ],
+                            );
+                          },
+                          child: Image.network(
+                            snapshot[index]["emptyUrl"].toString(),
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                              return Icon(Icons.error); // Displays an error icon if the image fails to load
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            Get.toNamed(
+                              Routes.CUP_DETAILES,
+                              arguments: [
+                                snapshot[index],
+                              ],
+                            );
+                          },
+                          child: Image.network(
+                            snapshot[index]["fullFilledUrl"].toString(),
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                              return Icon(Icons.error); // Displays an error icon if the image fails to load
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            Get.toNamed(
+                              Routes.CUP_DETAILES,
+                              arguments: [
+                                snapshot[index],
+                              ],
+                            );
+                          },
+                          child: Image.network(
+                            snapshot[index]["simiFilledUrl"].toString(),
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                              return Icon(Icons.error); // Displays an error icon if the image fails to load
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          )
+        ],
+      );
+    });
+  }
+}
+
+// [
+//             SvgPicture.asset("assets/images/mug_1.svg"),
+//             SvgPicture.asset("assets/images/mug_2.svg"),
+//             SvgPicture.asset("assets/images/mug_1.svg"),
+//             SvgPicture.asset("assets/images/mug_1.svg"),
+//           ],
+
+class RewardsBoxController extends GetxController with StateMixin {
+  @override
+  void onInit() {
+    getRewards();
+    super.onInit();
+  }
+
+  void getRewards() async {
+    try {
+      ResponseModel responseModel = await WebServices().getRewards();
+      var firstThreeItems = responseModel.data["data"].take(2).toList();
+
+      change(firstThreeItems, status: RxStatus.success());
+    } on EmptyDataException {
+      change(null, status: RxStatus.empty());
+    } catch (e) {
+      change(e.toString(), status: RxStatus.error());
+    }
+  }
+}
+
+class RewardsBoxView extends GetView<RewardsBoxController> {
+  @override
+  Widget build(BuildContext context) {
+    return controller.obx((snapshot) {
+      return Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                'Your Available Rewards',
+                style: TextStyle(
+                  fontFamily: 'Metropolis',
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w500,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text(
-                      "Good morning \nThis Day is Beautiful \nAnd so are You.",
-                      style: TextStyle(fontSize: 18),
+              ),
+              Spacer(),
+              InkWell(
+                onTap: () {
+                  Get.toNamed(Routes.REWARDS);
+                },
+                child: Text(
+                  'View All',
+                  style: TextStyle(
+                    fontSize: 13.0,
+                    color: Colors.black,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Column(
+            children: List.generate(
+              snapshot.length,
+              (index) {
+                return RewardsCard(
+                  image: snapshot[index]["imageUrl"].toString(),
+                  PointNumber: snapshot[index]["pointsCount"].toString(),
+                  collect: snapshot[index]["nearestPoints"].toString(),
+                  title: snapshot[index]["name"].toString(),
+                  percent: snapshot[index]["percentage"].toString(),
+                  onTap: () {
+                    Get.toNamed(
+                      Routes.REWARDS_DETAIL,
+                      arguments: snapshot[index],
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      );
+    });
+  }
+}
+
+//Rewards
+
+class QuoteController extends GetxController with StateMixin {
+  @override
+  void onInit() {
+    getQoute();
+    super.onInit();
+  }
+
+  void getQoute() async {
+    try {
+      ResponseModel responseModel = await WebServices().getQoute();
+      change(responseModel.data["data"], status: RxStatus.success());
+    } on EmptyDataException {
+      change(null, status: RxStatus.empty());
+    } catch (e) {
+      change(e.toString(), status: RxStatus.error());
+    }
+  }
+}
+
+class QuoteView extends GetView<QuoteController> {
+  @override
+  Widget build(BuildContext context) {
+    return controller.obx((snapshot) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Quote of the Day',
+            style: TextStyle(
+              fontFamily: 'Metropolis',
+              fontSize: 15.0,
+              //color: AppColors.color1,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Image.asset("assets/images/quite2.png"),
+              SizedBox(
+                width: 12,
+              ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        snapshot["content"].toString(),
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
-    );
+            ],
+          ),
+        ],
+      );
+    });
   }
 }

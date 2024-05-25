@@ -7,8 +7,6 @@ import 'package:perkfy/web_serives/web_services.dart';
 class SigninController extends GetxController with StateMixin {
   @override
   void onInit() {
-    // TODO: implement onInit
-
     change(null, status: RxStatus.success());
     super.onInit();
   }
@@ -24,7 +22,7 @@ class SigninController extends GetxController with StateMixin {
       Get.find<AuthService>().token = responseModel.data["message"];
       Get.find<AuthService>().IsLogged = true;
       Get.find<AuthService>().user = responseModel.data["data"];
-      Get.toNamed(Routes.HOME);
+      Get.offAndToNamed(Routes.HOME);
       change(null, status: RxStatus.success());
     } catch (e) {
       Get.snackbar("Done", e.toString());

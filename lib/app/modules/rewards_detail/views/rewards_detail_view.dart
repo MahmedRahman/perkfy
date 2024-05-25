@@ -27,9 +27,9 @@ class RewardsDetailView extends GetView<RewardsDetailController> {
                 children: [
                   Image.network(
                     snapshot["imageUrl"].toString(),
-                    width: 64,
-                    height: 64,
-                    fit: BoxFit.fill,
+                    width: Get.width,
+                    height: 200,
+                    fit: BoxFit.cover,
                     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                       return Icon(Icons.error); // Displays an error icon if the image fails to load
                     },
@@ -94,7 +94,7 @@ class RewardsDetailView extends GetView<RewardsDetailController> {
                     child: AppButton(
                       text: "Claim Reward",
                       onPressed: () {
-                        Get.toNamed(Routes.REWARDS_CLAIM);
+                        Get.offAndToNamed(Routes.SCAN);
                       },
                     ),
                   ),

@@ -21,4 +21,6 @@ class RewardsController extends GetxController with StateMixin {
       change(e.toString(), status: RxStatus.error());
     }
   }
+
+
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:perkfy/app/routes/app_pages.dart';
 import 'package:perkfy/shared/component/app_button.dart';
 import 'package:perkfy/shared/component/custom_checkbox.dart';
@@ -13,10 +14,10 @@ import '../controllers/signup_controller.dart';
 class SignupView extends GetView<SignupController> {
   SignupView({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController(text: "Mohamed Abd El Rahman");
+  final TextEditingController phoneNumberController = TextEditingController(text: "01002089001");
+  final TextEditingController emailController = TextEditingController(text: "app_test001@gmail.com");
+  final TextEditingController passwordController = TextEditingController(text: "App@0000");
 
   @override
   Widget build(BuildContext context) {
@@ -24,19 +25,16 @@ class SignupView extends GetView<SignupController> {
       appBar: AppBar(
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: Get.height,
+      body: controller.obx((snapshot) {
+        return Container(
+          // height: Get.height,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Form(
               key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
+                //crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 22,
-                  ),
                   CustomTitle(
                     Title: "Create a new\naccount",
                   ),
@@ -52,22 +50,25 @@ class SignupView extends GetView<SignupController> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 8),
                   CustomTextField(
                     label: 'Phone number',
+                    controller: phoneNumberController,
                     onChanged: (value) {},
                     borderColor: Color(0xffE6EAF0), // You can specify different colors for different fields
                     keyboardType: TextInputType.phone,
                     validator: (value) {
-                      if (value != null && value.length != 10) {
+                      print(value!.length.toString());
+                      if (value != null && value.length != 11) {
                         return 'Enter a valid phone number';
                       }
                       return null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 8),
                   CustomTextField(
                     label: 'Email address',
+                    controller: emailController,
                     onChanged: (value) {},
                     borderColor: Color(0xffE6EAF0), // You can specify different colors for different fields
                     keyboardType: TextInputType.emailAddress,
@@ -78,9 +79,10 @@ class SignupView extends GetView<SignupController> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 8),
                   CustomTextField(
                     label: 'Password',
+                    controller: passwordController,
                     onChanged: (value) {},
                     borderColor: Color(0xffE6EAF0),
                     isPassword: true, // Set this to true for password fields
@@ -90,36 +92,52 @@ class SignupView extends GetView<SignupController> {
                     label: 'Birthday (Optional)',
                     hint: 'Select your birthday',
                     onDateSelected: (DateTime? date) {
-                      print('Selected Date: $date');
+                      controller.selectDate = DateFormat('yyyy-MM-dd').format(date!);
+                      print('Selected Date: ${controller.selectDate}');
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 8),
                   CustomCheckbox(
                     title:
                         'I want to hear about exclusive offers, announcements and the newest products from social speciality coffee.',
                     onChanged: (bool? value) {
-                      // Handle checkbox change
-                      print("Checkbox is now: $value");
+                      controller.sendEmail = value!;
                     },
+                    initialValue: controller.sendEmail,
                   ),
                   CustomCheckbox(
                     title: 'I have read and agreed on the terms and conditions of the app',
+                    initialValue: controller.terms,
                     onChanged: (bool? value) {
-                      // Handle checkbox change
-                      print("Checkbox is now: $value");
+                      controller.terms = value!;
                     },
                   ),
-                  Spacer(),
+                  SizedBox(height: 8),
                   SizedBox(
                     width: Get.width,
                     child: AppButton(
                       text: "Join Rewards",
                       onPressed: () {
-                        // Get.toNamed(Routes.SIGNUP);
+                        if (controller.terms == false) {
+                          Get.snackbar("Read aregment", " read and agreed on the terms and conditions",
+                              backgroundColor: Colors.red.shade400);
+                          return;
+                        }
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                          controller.signUp(
+                            name: firstNameController.text,
+                            email: emailController.text,
+                            password: passwordController.text,
+                            birthday: controller.selectDate,
+                            phoneNumber: phoneNumberController.text,
+                            sendEmail: controller.sendEmail.toString(),
+                          );
+                        }
                       },
                     ),
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 8),
                   Center(
                     child: InkWell(
                       onTap: () {
@@ -147,13 +165,20 @@ class SignupView extends GetView<SignupController> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 8),
+                  Text(
+                    "${snapshot}",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.red.shade400,
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

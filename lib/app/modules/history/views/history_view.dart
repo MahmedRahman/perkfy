@@ -39,7 +39,15 @@ class HistoryView extends GetView<HistoryController> {
             );
           },
           onEmpty: Container(
-            child: Text("No History Found"),
+            child: Center(
+              child: Text(
+                "No History Found",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
           ),
           onError: (error) {
             return Container(

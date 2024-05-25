@@ -10,7 +10,9 @@ import '../controllers/signin_controller.dart';
 
 class SigninView extends GetView<SigninController> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController phoneController = TextEditingController(text: "01002089079"); // Add this line
+
+  
+  final TextEditingController phoneController = TextEditingController(text: "01223560607"); // Add this line
   final TextEditingController passwordController = TextEditingController(text: "P@ssw0rd"); // Add this line
 
   @override
@@ -87,8 +89,6 @@ class SigninView extends GetView<SigninController> {
                         formKey.currentState!.save();
                         controller.loginWithPhone(phone: phoneController.text, password: passwordController.text);
                       }
-
-                      //Get.toNamed(Routes.HOME);
                     },
                   ),
                 ),

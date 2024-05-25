@@ -1,23 +1,28 @@
 import 'package:get/get.dart';
+import 'package:perkfy/app/routes/app_pages.dart';
+import 'package:perkfy/web_serives/model/api_response_model.dart';
+import 'package:perkfy/web_serives/web_services.api.dart';
 
-class ForgetpasswordController extends GetxController {
-  //TODO: Implement ForgetpasswordController
-
-  final count = 0.obs;
+class ForgetpasswordController extends GetxController with StateMixin {
   @override
   void onInit() {
+    // TODO: implement onInit
     super.onInit();
+    change(null, status: RxStatus.success());
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  void forgetPassword({required String phoneNumber}) async {
+    change(null, status: RxStatus.loading());
+    try {
+      ResponseModel responseModel = await WebServices().forgotPassword(
+        phoneNumber: phoneNumber,
+      );
 
-  @override
-  void onClose() {
-    super.onClose();
+      Get.snackbar("Done ", "${responseModel.data["data"].toString()}");
+      Get.toNamed(Routes.OTPCODE, arguments: [responseModel.data["data"].toString(), phoneNumber]);
+      change(null, status: RxStatus.success());
+    } catch (e) {
+      change(e.toString(), status: RxStatus.error());
+    }
   }
-
-  void increment() => count.value++;
 }

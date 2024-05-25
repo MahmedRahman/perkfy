@@ -8,8 +8,6 @@ import '../controllers/notifaction_controller.dart';
 
 import 'package:intl/intl.dart';
 
-
-
 class NotifactionView extends GetView<NotifactionController> {
   NotifactionView({Key? key}) : super(key: key);
   @override
@@ -18,6 +16,14 @@ class NotifactionView extends GetView<NotifactionController> {
       appBar: AppBar(
         title: Text('Notifications'),
         centerTitle: true,
+        actions: [
+          TextButton(
+            onPressed: () {
+              controller.deleteALLNotifaction();
+            },
+            child: Text("Clear all"),
+          ),
+        ],
       ),
       body: controller.obx(
         (data) {
@@ -71,16 +77,18 @@ class NotifactionView extends GetView<NotifactionController> {
                               ),
                             ),
                             Spacer(),
-                            Text(
-                              'View more',
-                              style: TextStyle(
-                                fontFamily: 'Metropolis',
-                                fontSize: 13.0,
-                                color: Colors.black,
-                                decoration: TextDecoration.underline,
-                              ),
-                              textAlign: TextAlign.right,
-                            )
+                            (GetUtils.isNullOrBlank(data.elementAt(index)["image"]) == true)
+                                ? SizedBox.shrink()
+                                : Text(
+                                    'View more',
+                                    style: TextStyle(
+                                      fontFamily: 'Metropolis',
+                                      fontSize: 13.0,
+                                      color: Colors.black,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  )
                           ],
                         ),
                       ],

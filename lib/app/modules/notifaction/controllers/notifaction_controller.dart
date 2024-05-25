@@ -13,6 +13,7 @@ class NotifactionController extends GetxController with StateMixin {
   }
 
   void getNotifaction() async {
+    change(null, status: RxStatus.loading());
     try {
       ResponseModel responseModel = await WebServices().getNotification(
         userId: Get.find<AuthService>().user["id"].toString(),
@@ -31,14 +32,28 @@ class NotifactionController extends GetxController with StateMixin {
   void deleteNotifactionById({
     required String id,
   }) async {
+    change(null, status: RxStatus.loading());
     try {
       ResponseModel responseModel = await WebServices().deleteNotificationById(NotifactionId: id);
 
       print(responseModel.data["data"].toString());
+      getNotifaction();
+      // change(responseModel.data["data"], status: RxStatus.success());
+    } catch (e) {
+      change(e.toString(), status: RxStatus.error());
+    }
+  }
 
-      change(responseModel.data["data"], status: RxStatus.success());
-    } on EmptyDataException {
-      change(null, status: RxStatus.empty());
+  void deleteALLNotifaction() async {
+    change(null, status: RxStatus.loading());
+    try {
+      ResponseModel responseModel = await WebServices().deleteALLNotification(
+        id: Get.find<AuthService>().user["id"].toString(),
+      );
+
+      //print(responseModel.data["data"].toString());
+      getNotifaction();
+      // change(responseModel.data["data"], status: RxStatus.success());
     } catch (e) {
       change(e.toString(), status: RxStatus.error());
     }

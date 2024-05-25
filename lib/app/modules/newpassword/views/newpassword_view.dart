@@ -10,49 +10,68 @@ import '../controllers/newpassword_controller.dart';
 
 class NewpasswordView extends GetView<NewpasswordController> {
   const NewpasswordView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomTitle(Title: "New \nPassword"),
-            SizedBox(
-              height: 40,
-            ),
-            CustomTextField(
-              label: 'New Password',
-              onChanged: (value) {}, // Add your onChanged logic or leave empty if not needed
-              borderColor: Color(0xffE6EAF0), // You can specify different colors for different fields
-              isPassword: true,
-              // controller: _passwordController,
-            ),
-            CustomTextField(
-              label: 'Confirm New Password',
-              onChanged: (value) {}, // Add your onChanged logic or leave empty if not needed
-              borderColor: Color(0xffE6EAF0), // You can specify different colors for different fields
-              isPassword: true,
-              // controller: _passwordController,
-            ),
-            Spacer(),
-            SizedBox(
-              width: Get.width,
-              child: AppButton(
-                text: "Save",
-                onPressed: () {
-                  Get.toNamed(Routes.HOME);
-                },
+      body: controller.obx((snapshot) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomTitle(Title: "New \nPassword"),
+              SizedBox(height: 40),
+              CustomTextField(
+                label: 'New Password',
+                onChanged: (value) => controller.newPasswordController.text = value,
+                borderColor: Color(0xffE6EAF0),
+                isPassword: true,
+                controller: controller.newPasswordController,
               ),
-            ),
-            SizedBox(height: 30),
-          ],
-        ),
-      ),
+              CustomTextField(
+                label: 'Confirm New Password',
+                onChanged: (value) => controller.confirmNewPasswordController.text = value,
+                borderColor: Color(0xffE6EAF0),
+                isPassword: true,
+                controller: controller.confirmNewPasswordController,
+              ),
+              Spacer(),
+              SizedBox(
+                width: Get.width,
+                child: AppButton(
+                  text: "Save",
+                  onPressed: () {
+                    if (controller.newPasswordController.text.isEmpty ||
+                        !controller.isPasswordStrong(controller.newPasswordController.text)) {
+                      Get.snackbar("Error", "Please enter a valid password.");
+                    } else if (controller.newPasswordController.text != controller.confirmNewPasswordController.text) {
+                      Get.snackbar("Error", "Passwords do not match");
+                    } else {
+                      controller.forgetPasswordConfirmation(
+                        newPassword: controller.newPasswordController.text,
+                      ); // Navigate if all conditions are met
+                    }
+
+                    // if (controller.newPasswordController.text == controller.confirmNewPasswordController.text) {
+                    //   controller.forgetPasswordConfirmation(
+                    //     newPassword: controller.newPasswordController.text,
+                    //   );
+                    //   //Get.toNamed(Routes.HOME); // Navigate if passwords match
+                    // } else {
+                    //   Get.snackbar("Error", "Passwords do not match"); // Show error if they don't
+                    // }
+                  },
+                ),
+              ),
+              SizedBox(height: 30),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

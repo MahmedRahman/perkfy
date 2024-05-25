@@ -40,7 +40,7 @@ class CustomListTile extends StatelessWidget {
       ),
       contentPadding: EdgeInsets.symmetric(
         horizontal: 16,
-        vertical: 8,
+        vertical: 0,
       ), // Adjust padding as needed
     );
   }

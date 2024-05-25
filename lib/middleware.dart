@@ -15,7 +15,6 @@ class GlobalMiddleware extends GetMiddleware {
 
   @override
   Widget onPageBuilt(Widget page) {
-    print("hi From onPageBuilt");
     List<Widget> screenList = [HomeView(), ScanView(), RewardsView(), StoresView()];
 
     if (page is HomeView || page is ScanView || page is RewardsView || page is StoresView) {

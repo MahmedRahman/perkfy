@@ -27,6 +27,7 @@ abstract class Routes {
   static const REWARDS_DETAIL = _Paths.REWARDS_DETAIL;
   static const REWARDS_CLAIM = _Paths.REWARDS_CLAIM;
   static const QR_SCAN = _Paths.QR_SCAN;
+  static const CUP_DETAILES = _Paths.CUP_DETAILES;
 }
 
 abstract class _Paths {
@@ -55,4 +56,5 @@ abstract class _Paths {
   static const REWARDS_DETAIL = '/rewards-detail';
   static const REWARDS_CLAIM = '/rewards-claim';
   static const QR_SCAN = '/qr-scan';
+  static const CUP_DETAILES = '/cup-detailes';
 }

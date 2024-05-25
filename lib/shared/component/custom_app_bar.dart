@@ -8,7 +8,10 @@ AppBar customAppBar({
   required Function()? onPressed,
 }) {
   return AppBar(
+    automaticallyImplyLeading: false, // This hides the back button
+
     title: Text(title),
+
     actions: [
       IconButton(
         onPressed: () {

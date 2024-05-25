@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:perkfy/app/routes/app_pages.dart';
 import 'package:perkfy/shared/component/count_down_timer.dart';
 import 'package:perkfy/shared/component/custom_title.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -9,16 +10,26 @@ import '../controllers/otpcode_controller.dart';
 
 class OtpcodeView extends GetView<OtpcodeController> {
   OtpcodeView({Key? key}) : super(key: key);
-  TextEditingController textEditingController = TextEditingController();
+  TextEditingController textEditingController = TextEditingController(text: Get.arguments[0]);
 
   @override
   Widget build(BuildContext context) {
+    // Start your navigation after some delay
+    Future.delayed(Duration(seconds: 2), () {
+      if (Get.previousRoute.toString() == "/signup") {
+        Get.offAllNamed(Routes.HOME);
+        return;
+      }
+
+      Get.toNamed(Routes.NEWPASSWORD, arguments: Get.arguments);
+      // Navigate to home after the splash
+    });
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
       ),
-      body: 
-      Padding(
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,6 +76,7 @@ class OtpcodeView extends GetView<OtpcodeController> {
               controller: textEditingController,
               onCompleted: (v) {
                 print("Completed");
+                Get.toNamed(Routes.HOME);
               },
               onChanged: (value) {
                 print(value);
@@ -80,7 +92,6 @@ class OtpcodeView extends GetView<OtpcodeController> {
           ],
         ),
       ),
-   
     );
   }
 }

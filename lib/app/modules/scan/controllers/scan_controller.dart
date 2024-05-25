@@ -1,17 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:perkfy/app/routes/app_pages.dart';
+import 'package:perkfy/shared/service.auth.dart';
 import 'package:perkfy/web_serives/model/api_response_model.dart';
 import 'package:perkfy/web_serives/web_services.dart';
 
 class ScanController extends GetxController with StateMixin {
   @override
-  void onInit() {
-    getSetting();
-    // TODO: implement onInit
+  void onInit() async {
     super.onInit();
+    await getSetting();
   }
 
-  void getSetting() async {
+  Future getSetting() async {
     try {
       ResponseModel responseModel = await WebServices().getPointSetting();
       change(responseModel.data["data"], status: RxStatus.success());
@@ -20,16 +21,37 @@ class ScanController extends GetxController with StateMixin {
     }
   }
 
-  void AddDycrypted({required String encryptedString}) async {
-    ResponseModel responseModel = await WebServices().addDycrypted(encryptedString: encryptedString);
-    if (responseModel.data["success"] == false) {
-      Get.snackbar(
-        "Error",
-        responseModel.data["message"],
+  Future getUserInfo() async {
+    try {
+      ResponseModel responseModel = await WebServices().getuserInfoById(
+        id: Get.find<AuthService>().user["id"].toString(),
       );
-      return;
+      Get.find<AuthService>().user = responseModel.data["data"];
+    } catch (e) {
+      change(e, status: RxStatus.error());
     }
-    Get.snackbar("Done", responseModel.data["message"]);
-    Get.toNamed(Routes.HOME);
+  }
+
+  void AddDycrypted({required String encryptedString}) async {
+    change(null, status: RxStatus.loading());
+    try {
+      ResponseModel responseModel = await WebServices().addDycrypted(encryptedString: encryptedString);
+      if (responseModel.data["success"] == false) {
+        Get.snackbar(
+          "Error",
+          responseModel.data["message"],
+        );
+        getSetting();
+        return;
+      }
+      Get.snackbar("Done", responseModel.data["message"], backgroundColor: Colors.amber);
+      await getSetting();
+      await getUserInfo();
+      Get.toNamed(Routes.HOME);
+    } catch (e) {
+      Get.snackbar("decrypting", "An error occurred while decrypting the transaction data",
+          backgroundColor: Colors.red);
+      await getSetting();
+    }
   }
 }

@@ -13,7 +13,11 @@ class PrivacyStatementView extends GetView<PrivacyStatementController> {
         title: const Text('Privacy Statement'),
         centerTitle: true,
       ),
-      body: Container(),
+      body: controller.obx(
+        (snapshot) {
+          return Container();
+        },
+      ),
     );
   }
 }

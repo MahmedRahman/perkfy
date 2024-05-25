@@ -35,6 +35,14 @@ class WebServices {
     );
   }
 
+  Future<ResponseModel> getStore() async {
+    return await ApiManger().execute(
+      url: "${API.url}Store/Get",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
   Future<ResponseModel> getRewardById({
     required String rewardId,
   }) async {
@@ -47,7 +55,34 @@ class WebServices {
 
   Future<ResponseModel> getRewards() async {
     return await ApiManger().execute(
-      url: "${API.url}RewardSetting/GetByBrand?id=1",
+      url: "${API.url}RewardSetting/GetPaged?statusId=1&brandId=1",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> getuserInfoById({required String id}) async {
+    return await ApiManger().execute(
+      url: "${API.url}User/GetById?id=$id",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> getCups() async {
+    return await ApiManger().execute(
+      url:
+          "${API.url}PunchCardSetting/GetPaged?pageId=0&pageSize=10&searchPattern&sortColumn=Id&sortDirection=0&statusId=1&brandId=1",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
+  //
+
+  Future<ResponseModel> getQoute() async {
+    return await ApiManger().execute(
+      url: "${API.url}Qoute/GetCurrent?Id=1",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -59,26 +94,29 @@ class WebServices {
     required String password,
     required String phoneNumber,
     required String birthday,
+    required String sendEmail,
   }) async {
     return await ApiManger().execute(
       url: "${API.url}User/Add",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
-        "id": "",
+        "id": "1234",
         "firstName": "$name",
         "lastName": "",
-        "birthday": "$birthday",
+        "birthday": (birthday.toString() == "") ? null : birthday.toString(),
         "statusId": 1,
         "brandId": 1,
         "email": "$email",
         "phoneNumber": "$phoneNumber",
         "password": "$password",
+        "sendEmail": bool.parse(sendEmail),
         "role": "Member"
       },
       isAuth: true,
     );
   }
 
+//$birthday
   Future<ResponseModel> getHistory({
     required String userId,
   }) async {
@@ -89,13 +127,61 @@ class WebServices {
     );
   }
 
+  //'
+
+  Future<ResponseModel> getPrivacyStatement() async {
+    return await ApiManger().execute(
+      url: "${API.url}PrivacyStatementController/GetByBrand?id=1",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
   Future<ResponseModel> deleteNotificationById({
     required String NotifactionId,
   }) async {
     return await ApiManger().execute(
       url: "${API.url}UserNotification/Delete?id=${NotifactionId}",
       HTTPRequestMethod: HTTPRequestEnum.delete,
-      // isAuth: true,
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> deleteALLNotification({
+    required String id,
+  }) async {
+    return await ApiManger().execute(
+      url: "${API.url}UserNotification/DeleteByUser?id=$id",
+      HTTPRequestMethod: HTTPRequestEnum.delete,
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> forgotPasswordConfirmation({
+    required String phoneNumber,
+    required String newPassword,
+    required String otp,
+  }) async {
+    return await ApiManger().execute(
+      url: "${API.url}User/ForgotPasswordConfirmation",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      isAuth: true,
+      query: {
+        "phoneNumber": "$phoneNumber",
+        "newPassword": "$newPassword",
+        "otp": "$otp",
+      },
+    );
+  }
+
+  Future<ResponseModel> forgotPassword({required String phoneNumber}) async {
+    return await ApiManger().execute(
+      url: "${API.url}User/ForgotPassword",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      isAuth: true,
+      query: {
+        "email": "$phoneNumber",
+      },
     );
   }
 

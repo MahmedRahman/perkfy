@@ -5,6 +5,8 @@ import '../modules/changePassword/bindings/change_password_binding.dart';
 import '../modules/changePassword/views/change_password_view.dart';
 import '../modules/contactUs/bindings/contact_us_binding.dart';
 import '../modules/contactUs/views/contact_us_view.dart';
+import '../modules/cup_detailes/bindings/cup_detailes_binding.dart';
+import '../modules/cup_detailes/views/cup_detailes_view.dart';
 import '../modules/deleteAccount/bindings/delete_account_binding.dart';
 import '../modules/deleteAccount/views/delete_account_view.dart';
 import '../modules/forgetpassword/bindings/forgetpassword_binding.dart';
@@ -88,7 +90,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.FORGETPASSWORD,
-      page: () => const ForgetpasswordView(),
+      page: () => ForgetpasswordView(),
       binding: ForgetpasswordBinding(),
     ),
     GetPage(
@@ -189,6 +191,11 @@ class AppPages {
       name: _Paths.QR_SCAN,
       page: () => QRScannerScreen(),
       binding: QrScanBinding(),
+    ),
+    GetPage(
+      name: _Paths.CUP_DETAILES,
+      page: () => const CupDetailesView(),
+      binding: CupDetailesBinding(),
     ),
   ];
 }
