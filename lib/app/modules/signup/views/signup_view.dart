@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:perkfy/app/routes/app_pages.dart';
@@ -14,10 +13,10 @@ import '../controllers/signup_controller.dart';
 class SignupView extends GetView<SignupController> {
   SignupView({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController firstNameController = TextEditingController(text: "Mohamed Abd El Rahman");
-  final TextEditingController phoneNumberController = TextEditingController(text: "01002089001");
-  final TextEditingController emailController = TextEditingController(text: "app_test001@gmail.com");
-  final TextEditingController passwordController = TextEditingController(text: "App@0000");
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +54,12 @@ class SignupView extends GetView<SignupController> {
                     label: 'Phone number',
                     controller: phoneNumberController,
                     onChanged: (value) {},
-                    borderColor: Color(0xffE6EAF0), // You can specify different colors for different fields
+                    borderColor: Color(
+                        0xffE6EAF0), // You can specify different colors for different fields
                     keyboardType: TextInputType.phone,
                     validator: (value) {
                       print(value!.length.toString());
-                      if (value != null && value.length != 11) {
+                      if (value.length != 11) {
                         return 'Enter a valid phone number';
                       }
                       return null;
@@ -70,7 +70,8 @@ class SignupView extends GetView<SignupController> {
                     label: 'Email address',
                     controller: emailController,
                     onChanged: (value) {},
-                    borderColor: Color(0xffE6EAF0), // You can specify different colors for different fields
+                    borderColor: Color(
+                        0xffE6EAF0), // You can specify different colors for different fields
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value != null && !value.contains('@')) {
@@ -92,7 +93,8 @@ class SignupView extends GetView<SignupController> {
                     label: 'Birthday (Optional)',
                     hint: 'Select your birthday',
                     onDateSelected: (DateTime? date) {
-                      controller.selectDate = DateFormat('yyyy-MM-dd').format(date!);
+                      controller.selectDate =
+                          DateFormat('yyyy-MM-dd').format(date!);
                       print('Selected Date: ${controller.selectDate}');
                     },
                   ),
@@ -106,7 +108,8 @@ class SignupView extends GetView<SignupController> {
                     initialValue: controller.sendEmail,
                   ),
                   CustomCheckbox(
-                    title: 'I have read and agreed on the terms and conditions of the app',
+                    title:
+                        'I have read and agreed on the terms and conditions of the app',
                     initialValue: controller.terms,
                     onChanged: (bool? value) {
                       controller.terms = value!;
@@ -119,7 +122,8 @@ class SignupView extends GetView<SignupController> {
                       text: "Join Rewards",
                       onPressed: () {
                         if (controller.terms == false) {
-                          Get.snackbar("Read aregment", " read and agreed on the terms and conditions",
+                          Get.snackbar("Read aregment",
+                              " read and agreed on the terms and conditions",
                               backgroundColor: Colors.red.shade400);
                           return;
                         }
@@ -166,13 +170,6 @@ class SignupView extends GetView<SignupController> {
                     ),
                   ),
                   SizedBox(height: 8),
-                  Text(
-                    "${snapshot}",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.red.shade400,
-                    ),
-                  ),
                 ],
               ),
             ),

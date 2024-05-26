@@ -1,6 +1,8 @@
+import 'package:get/get.dart';
 import 'package:perkfy/web_serives/api_manger.dart';
 import 'package:perkfy/web_serives/web_services.url.dart';
 
+import '../shared/service.auth.dart';
 import 'model/api_response_model.dart';
 
 class WebServices {
@@ -25,11 +27,28 @@ class WebServices {
     );
   }
 
+  Future<ResponseModel> changePassword({
+    required String userId,
+    required String newPassword,
+    required String oldPassword,
+  }) async {
+    return await ApiManger().execute(
+      url: "${API.url}User/ChangePassowrd",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      query: {
+        "userId": userId,
+        "newPassword": newPassword,
+        "oldPassword": oldPassword
+      },
+    );
+  }
+
   Future<ResponseModel> getNotification({
     required String userId,
   }) async {
     return await ApiManger().execute(
-      url: "${API.url}UserNotification/GetPaged?pageId=0&pageSize=10&userId=$userId&statusId=1",
+      url:
+          "${API.url}UserNotification/GetPaged?pageId=0&pageSize=10&userId=$userId&statusId=1",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -202,6 +221,56 @@ class WebServices {
       isAuth: true,
       query: {
         "encryptedString": "$encryptedString",
+      },
+    );
+  }
+
+  // update profile
+  Future<ResponseModel> updateProfile({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String phoneNumber,
+    required String birthday,
+    required int gender,
+    required String image,
+  }) async {
+    return await ApiManger().execute(
+      url: "${API.url}User/Edit",
+      HTTPRequestMethod: HTTPRequestEnum.put,
+      query: {
+        "id": Get.find<AuthService>().user["id"],
+        "firstName": "$firstName",
+        "lastName": "$lastName",
+        "birthday": (birthday.toString() == "") ? null : birthday.toString(),
+        "statusId": 1,
+        "brandId": 1,
+        "gender": gender,
+        "email": "$email",
+        "phoneNumber": "$phoneNumber",
+        "imageBase64": "$image",
+        "role": "Member"
+      },
+    );
+  }
+
+  // contact us
+  Future<ResponseModel> contactUsMessage({
+    required String email,
+    required String name,
+    required String phoneNumber,
+    required String message,
+  }) async {
+    return await ApiManger().execute(
+      url: "${API.url}ContactUs/Add",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      query: {
+        "email": "$email",
+        "phoneNumber": "$phoneNumber",
+        "name": name,
+        "message": message,
+        "statusId": 1,
+        "brandId": 1,
       },
     );
   }

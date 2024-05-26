@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:perkfy/app/routes/app_pages.dart';
 import 'package:perkfy/shared/service.auth.dart';
@@ -20,6 +22,7 @@ class SigninController extends GetxController with StateMixin {
       );
 
       Get.find<AuthService>().token = responseModel.data["message"];
+      inspect(Get.find<AuthService>().token);
       Get.find<AuthService>().IsLogged = true;
       Get.find<AuthService>().user = responseModel.data["data"];
       Get.offAndToNamed(Routes.HOME);

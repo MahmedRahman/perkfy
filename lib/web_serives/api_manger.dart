@@ -6,7 +6,7 @@ import 'package:perkfy/shared/service.auth.dart';
 import 'package:perkfy/web_serives/exception.dart';
 import 'package:perkfy/web_serives/model/api_response_model.dart';
 
-enum HTTPRequestEnum { GET, POST, delete }
+enum HTTPRequestEnum { GET, POST, delete, put }
 
 class ApiManger extends GetConnect {
   ApiManger() {
@@ -44,6 +44,14 @@ class ApiManger extends GetConnect {
       } else if (HTTPRequestMethod == HTTPRequestEnum.delete) {
         response = await delete(
           url,
+          headers: {
+            'Authorization': "Bearer ${Get.find<AuthService>().token}",
+          },
+        );
+      } else if (HTTPRequestMethod == HTTPRequestEnum.put) {
+        response = await put(
+          url,
+          query,
           headers: {
             'Authorization': "Bearer ${Get.find<AuthService>().token}",
           },
@@ -105,7 +113,8 @@ class ApiManger extends GetConnect {
       httpRequest: HTTPRequestMethod,
     );
 
-    log("\x1B[32m [${HTTPRequestMethod.name}] [${responseModel.statusCode}] ${url}\x1B[0m", name: "http-response");
+    log("\x1B[32m [${HTTPRequestMethod.name}] [${responseModel.statusCode}] ${url}\x1B[0m",
+        name: "http-response");
 
     return responseModel;
   }

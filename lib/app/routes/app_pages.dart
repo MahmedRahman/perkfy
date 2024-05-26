@@ -115,17 +115,17 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PERSONAL_INFO,
-      page: () => const PersonalInfoView(),
+      page: () => PersonalInfoView(),
       binding: PersonalInfoBinding(),
     ),
     GetPage(
       name: _Paths.CHANGE_PASSWORD,
-      page: () => const ChangePasswordView(),
+      page: () => ChangePasswordView(),
       binding: ChangePasswordBinding(),
     ),
     GetPage(
       name: _Paths.CONTACT_US,
-      page: () => const ContactUsView(),
+      page: () => ContactUsView(),
       binding: ContactUsBinding(),
     ),
     GetPage(

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:get/get.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:perkfy/app/routes/app_pages.dart';
 import 'package:perkfy/shared/component/rewards_card.dart';
 import 'package:perkfy/shared/service.auth.dart';
@@ -38,12 +37,38 @@ class HomeView extends GetView<HomeController> {
                   "assets/images/logo.svg",
                   width: 80,
                 ),
-                SizedBox(
-                  height: 19,
-                ),
-                Text(
-                  'Rewards Stars',
-                  style: TextStyle(fontSize: 14.0, color: Color(0xffCDA259)),
+
+                Row(
+                  children: [
+                    Text(
+                      'Rewards Stars',
+                      style:
+                          TextStyle(fontSize: 14.0, color: Color(0xffCDA259)),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Stack(
+                        children: [
+                          CircularPercentIndicator(
+                            radius: 35.0,
+                            lineWidth: 4.0,
+                            percent: Get.find<AuthService>()
+                                .user["nearestRewordProgress"]
+                                .toDouble(),
+                            arcType: ArcType.FULL,
+                            center: Image.asset(
+                              'assets/images/cup_home_progress.png',
+                              width: 40,
+                              height: 45,
+                            ),
+                            progressColor: Color(0xffCDA259),
+                            arcBackgroundColor: Colors.white,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
                 Row(
                   children: [
@@ -201,7 +226,11 @@ class HomeView extends GetView<HomeController> {
           SizedBox(
             width: 8,
           ),
-          Image.asset("assets/images/user_avater.png"),
+          Image.asset(
+            "assets/images/user_avater.png",
+            width: 35,
+            height: 35,
+          ),
           SizedBox(
             width: 8,
           ),
@@ -275,74 +304,51 @@ class CupsBoxView extends GetView<CupsBoxController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(
-                snapshot.length, // Assuming 'snapshot.length' is the number of images
+                snapshot
+                    .length, // Assuming 'snapshot.length' is the number of images
                 (index) {
                   return Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                          onTap: () {
-                            Get.toNamed(
-                              Routes.CUP_DETAILES,
-                              arguments: [
-                                snapshot[index],
-                              ],
-                            );
+                        child: Image.network(
+                          snapshot[index]["emptyUrl"].toString(),
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            return Icon(Icons
+                                .error); // Displays an error icon if the image fails to load
                           },
-                          child: Image.network(
-                            snapshot[index]["emptyUrl"].toString(),
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                              return Icon(Icons.error); // Displays an error icon if the image fails to load
-                            },
-                          ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                          onTap: () {
-                            Get.toNamed(
-                              Routes.CUP_DETAILES,
-                              arguments: [
-                                snapshot[index],
-                              ],
-                            );
+                        child: Image.network(
+                          snapshot[index]["fullFilledUrl"].toString(),
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            return Icon(Icons
+                                .error); // Displays an error icon if the image fails to load
                           },
-                          child: Image.network(
-                            snapshot[index]["fullFilledUrl"].toString(),
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                              return Icon(Icons.error); // Displays an error icon if the image fails to load
-                            },
-                          ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                          onTap: () {
-                            Get.toNamed(
-                              Routes.CUP_DETAILES,
-                              arguments: [
-                                snapshot[index],
-                              ],
-                            );
+                        child: Image.network(
+                          snapshot[index]["simiFilledUrl"].toString(),
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            return Icon(Icons
+                                .error); // Displays an error icon if the image fails to load
                           },
-                          child: Image.network(
-                            snapshot[index]["simiFilledUrl"].toString(),
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                              return Icon(Icons.error); // Displays an error icon if the image fails to load
-                            },
-                          ),
                         ),
                       ),
                     ],
