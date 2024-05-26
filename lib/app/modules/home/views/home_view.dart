@@ -42,8 +42,7 @@ class HomeView extends GetView<HomeController> {
                   children: [
                     Text(
                       'Rewards Stars',
-                      style:
-                          TextStyle(fontSize: 14.0, color: Color(0xffCDA259)),
+                      style: TextStyle(fontSize: 14.0, color: Color(0xffCDA259)),
                     ),
                     Spacer(),
                     Padding(
@@ -53,9 +52,7 @@ class HomeView extends GetView<HomeController> {
                           CircularPercentIndicator(
                             radius: 35.0,
                             lineWidth: 4.0,
-                            percent: Get.find<AuthService>()
-                                .user["nearestRewordProgress"]
-                                .toDouble(),
+                            percent: Get.find<AuthService>().user["nearestRewordProgress"]?.toDouble() ?? 0.0,
                             arcType: ArcType.FULL,
                             center: Image.asset(
                               'assets/images/cup_home_progress.png',
@@ -304,8 +301,7 @@ class CupsBoxView extends GetView<CupsBoxController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(
-                snapshot
-                    .length, // Assuming 'snapshot.length' is the number of images
+                snapshot.length, // Assuming 'snapshot.length' is the number of images
                 (index) {
                   return Row(
                     children: [
@@ -316,10 +312,8 @@ class CupsBoxView extends GetView<CupsBoxController> {
                           width: 80,
                           height: 80,
                           fit: BoxFit.cover,
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
-                            return Icon(Icons
-                                .error); // Displays an error icon if the image fails to load
+                          errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                            return Icon(Icons.error); // Displays an error icon if the image fails to load
                           },
                         ),
                       ),
@@ -330,10 +324,8 @@ class CupsBoxView extends GetView<CupsBoxController> {
                           width: 80,
                           height: 80,
                           fit: BoxFit.cover,
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
-                            return Icon(Icons
-                                .error); // Displays an error icon if the image fails to load
+                          errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                            return Icon(Icons.error); // Displays an error icon if the image fails to load
                           },
                         ),
                       ),
@@ -344,10 +336,8 @@ class CupsBoxView extends GetView<CupsBoxController> {
                           width: 80,
                           height: 80,
                           fit: BoxFit.cover,
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
-                            return Icon(Icons
-                                .error); // Displays an error icon if the image fails to load
+                          errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                            return Icon(Icons.error); // Displays an error icon if the image fails to load
                           },
                         ),
                       ),

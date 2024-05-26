@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:perkfy/app/routes/app_pages.dart';
+import 'package:perkfy/auth_storage.dart';
 import 'package:perkfy/shared/component/count_down_timer.dart';
 import 'package:perkfy/shared/component/custom_title.dart';
+import 'package:perkfy/shared/service.auth.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../controllers/otpcode_controller.dart';
@@ -17,6 +19,11 @@ class OtpcodeView extends GetView<OtpcodeController> {
     // Start your navigation after some delay
     Future.delayed(Duration(seconds: 2), () {
       if (Get.previousRoute.toString() == "/signup") {
+        Get.find<AuthStorage>().saveTokenAndUserId(
+          Get.find<AuthService>().token,
+          Get.find<AuthService>().user["id"],
+        );
+
         Get.offAllNamed(Routes.HOME);
         return;
       }

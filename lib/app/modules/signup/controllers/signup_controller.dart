@@ -46,6 +46,8 @@ class SignupController extends GetxController with StateMixin {
       Get.find<AuthService>().IsLogged = true;
       Get.find<AuthService>().user = responseLogin.data["data"];
 
+      
+
       Get.toNamed(Routes.OTPCODE, arguments: [responseModel.data["data"].toString()]);
 
       change("", status: RxStatus.success());

@@ -10,10 +10,8 @@ import '../controllers/signin_controller.dart';
 class SigninView extends GetView<SigninController> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final TextEditingController phoneController =
-      TextEditingController(); // Add this line
-  final TextEditingController passwordController =
-      TextEditingController(); // Add this line
+  final TextEditingController phoneController = TextEditingController(text: "01223560607"); // Add this line
+  final TextEditingController passwordController = TextEditingController(text: "P@ssw0rd"); // Add this line
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +36,7 @@ class SigninView extends GetView<SigninController> {
                   controller: phoneController,
                   onChanged: (value) {},
                   // Add your onChanged logic or leave empty if not needed
-                  borderColor: Color(
-                      0xffE6EAF0), // You can specify different colors for different fields
+                  borderColor: Color(0xffE6EAF0), // You can specify different colors for different fields
                   keyboardType: TextInputType.phone,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -55,10 +52,8 @@ class SigninView extends GetView<SigninController> {
                   label: 'Password',
 
                   controller: passwordController,
-                  onChanged:
-                      (value) {}, // Add your onChanged logic or leave empty if not needed
-                  borderColor: Color(
-                      0xffE6EAF0), // You can specify different colors for different fields
+                  onChanged: (value) {}, // Add your onChanged logic or leave empty if not needed
+                  borderColor: Color(0xffE6EAF0), // You can specify different colors for different fields
                   isPassword: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -79,9 +74,7 @@ class SigninView extends GetView<SigninController> {
                       print("Forgot Password Tapped");
                     },
                     child: Text("Forget Password?",
-                        style: TextStyle(
-                            color: Colors.black,
-                            decoration: TextDecoration.underline)),
+                        style: TextStyle(color: Colors.black, decoration: TextDecoration.underline)),
                   ),
                 ),
                 Spacer(),
@@ -92,9 +85,7 @@ class SigninView extends GetView<SigninController> {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
-                        controller.loginWithPhone(
-                            phone: phoneController.text,
-                            password: passwordController.text);
+                        controller.loginWithPhone(phone: phoneController.text, password: passwordController.text);
                       }
                     },
                   ),

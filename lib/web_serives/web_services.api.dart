@@ -35,11 +35,7 @@ class WebServices {
     return await ApiManger().execute(
       url: "${API.url}User/ChangePassowrd",
       HTTPRequestMethod: HTTPRequestEnum.POST,
-      query: {
-        "userId": userId,
-        "newPassword": newPassword,
-        "oldPassword": oldPassword
-      },
+      query: {"userId": userId, "newPassword": newPassword, "oldPassword": oldPassword},
     );
   }
 
@@ -47,8 +43,7 @@ class WebServices {
     required String userId,
   }) async {
     return await ApiManger().execute(
-      url:
-          "${API.url}UserNotification/GetPaged?pageId=0&pageSize=10&userId=$userId&statusId=1",
+      url: "${API.url}UserNotification/GetPaged?pageId=0&pageSize=10&userId=$userId&statusId=1",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -83,6 +78,14 @@ class WebServices {
   Future<ResponseModel> getuserInfoById({required String id}) async {
     return await ApiManger().execute(
       url: "${API.url}User/GetById?id=$id",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> getuserInfo() async {
+    return await ApiManger().execute(
+      url: "${API.url}User/Get",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );

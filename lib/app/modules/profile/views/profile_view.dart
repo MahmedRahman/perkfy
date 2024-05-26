@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:perkfy/app/modules/deleteAccount/controllers/delete_account_controller.dart';
 import 'package:perkfy/app/routes/app_pages.dart';
+import 'package:perkfy/auth_storage.dart';
 import 'package:perkfy/shared/component/custom_list_Item.dart';
 import 'package:perkfy/shared/service.auth.dart';
 
@@ -29,13 +30,10 @@ class ProfileView extends GetView<ProfileController> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: ListTile(
-                  title: Text(
-                      "${Get.find<AuthService>().user["fullName"].toString()}"),
-                  subtitle: Text(
-                      "${Get.find<AuthService>().user["email"].toString()}"),
+                  title: Text("${Get.find<AuthService>().user["fullName"].toString()}"),
+                  subtitle: Text("${Get.find<AuthService>().user["email"].toString()}"),
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "${Get.find<AuthService>().user["imageUrl"].toString()}"),
+                    backgroundImage: NetworkImage("${Get.find<AuthService>().user["imageUrl"].toString()}"),
                   ),
                 ),
               ),
@@ -96,9 +94,18 @@ class ProfileView extends GetView<ProfileController> {
                   title: "Delete Account",
                   onTap: () {
                     // Get.toNamed(Routes.DELETE_ACCOUNT);
-                    final DeleteAccountController deletController =
-                        Get.put(DeleteAccountController());
+                    final DeleteAccountController deletController = Get.put(DeleteAccountController());
                     deletController.showDeleteDialog();
+                    // Implement your navigation or functionality here
+                  }),
+
+              Divider(),
+              CustomListItem(
+                  title: "LogOut",
+                  onTap: () {
+                    Get.find<AuthStorage>().removeTokenAndUserId();
+                    Get.offAllNamed(Routes.ONBOARDING);
+
                     // Implement your navigation or functionality here
                   }),
               SizedBox(

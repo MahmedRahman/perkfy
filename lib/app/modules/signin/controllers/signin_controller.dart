@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:perkfy/app/routes/app_pages.dart';
+import 'package:perkfy/auth_storage.dart';
 import 'package:perkfy/shared/service.auth.dart';
 import 'package:perkfy/web_serives/model/api_response_model.dart';
 import 'package:perkfy/web_serives/web_services.dart';
@@ -25,6 +26,7 @@ class SigninController extends GetxController with StateMixin {
       inspect(Get.find<AuthService>().token);
       Get.find<AuthService>().IsLogged = true;
       Get.find<AuthService>().user = responseModel.data["data"];
+      Get.find<AuthStorage>().saveTokenAndUserId(responseModel.data["message"], responseModel.data["data"]["id"]);
       Get.offAndToNamed(Routes.HOME);
       change(null, status: RxStatus.success());
     } catch (e) {
