@@ -104,7 +104,7 @@ class ProfileView extends GetView<ProfileController> {
                   title: "LogOut",
                   onTap: () {
                     Get.find<AuthStorage>().removeTokenAndUserId();
-                    Get.offAllNamed(Routes.ONBOARDING);
+                    Get.offAndToNamed(Routes.ONBOARDING);
 
                     // Implement your navigation or functionality here
                   }),

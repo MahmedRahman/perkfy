@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:perkfy/app/routes/app_pages.dart';
@@ -10,8 +11,10 @@ import '../controllers/signin_controller.dart';
 class SigninView extends GetView<SigninController> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final TextEditingController phoneController = TextEditingController(text: "01223560607"); // Add this line
-  final TextEditingController passwordController = TextEditingController(text: "P@ssw0rd"); // Add this line
+  final TextEditingController phoneController =
+      TextEditingController(text: kDebugMode ? "01223560607" : ""); // Add this line
+  final TextEditingController passwordController =
+      TextEditingController(text: kDebugMode ? "P@ssw0rd" : ""); // Add this line
 
   @override
   Widget build(BuildContext context) {

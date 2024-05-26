@@ -49,8 +49,11 @@ class ScanController extends GetxController with StateMixin {
       await getUserInfo();
       Get.toNamed(Routes.HOME);
     } catch (e) {
-      Get.snackbar("decrypting", "An error occurred while decrypting the transaction data",
-          backgroundColor: Colors.red);
+      Get.snackbar(
+        "decrypting",
+        "An error occurred while decrypting the transaction data",
+        backgroundColor: Colors.red,
+      );
       await getSetting();
     }
   }

@@ -82,10 +82,10 @@ Widget RewardsCard({
                     LinearPercentIndicator(
                       curve: Curves.easeIn,
                       lineHeight: 10.0,
-                      percent: double.tryParse(
-                            percent.toString(),
-                          ) ??
-                          0.0,
+                      percent: (() {
+                        final parsedValue = double.tryParse(percent.toString()) ?? 0.0;
+                        return (parsedValue >= 0 && parsedValue <= 1) ? parsedValue : 0.0;
+                      })(),
                       backgroundColor: Colors.grey,
                       progressColor: Colors.black,
                       barRadius: Radius.circular(25),

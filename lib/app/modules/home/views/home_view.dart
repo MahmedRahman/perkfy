@@ -52,7 +52,10 @@ class HomeView extends GetView<HomeController> {
                           CircularPercentIndicator(
                             radius: 35.0,
                             lineWidth: 4.0,
-                            percent: Get.find<AuthService>().user["nearestRewordProgress"]?.toDouble() ?? 0.0,
+                            percent: (() {
+                              double value = Get.find<AuthService>().user["nearestRewordProgress"]?.toDouble() ?? 0.0;
+                              return value.clamp(0.0, 1.0); // Ensuring the value is between 0.0 and 1.0
+                            })(),
                             arcType: ArcType.FULL,
                             center: Image.asset(
                               'assets/images/cup_home_progress.png',
@@ -267,7 +270,62 @@ class CupsBoxController extends GetxController with StateMixin {
   void getCups() async {
     try {
       ResponseModel responseModel = await WebServices().getCups();
-      var firstItems = responseModel.data["data"].take(1).toList();
+      var firstItems = [
+        {
+          "id": 0,
+          "settingId": 2,
+          "userId": "716f16dc-750d-4bfc-b1d7-874388205790",
+          "status": "FullFilled",
+          "imageURL": "/Files/PunchCardSetting/17/bdd173a3-6126-492b-82f8-9edba0d5e573.jpg",
+          "productId": 1,
+          "product": "product 1"
+        },
+        {
+          "id": 1,
+          "settingId": 2,
+          "userId": "716f16dc-750d-4bfc-b1d7-874388205790",
+          "status": "FullFilled",
+          "imageURL": "/Files/PunchCardSetting/17/bdd173a3-6126-492b-82f8-9edba0d5e573.jpg",
+          "productId": 1,
+          "product": "product 1"
+        },
+        {
+          "id": 2,
+          "settingId": 2,
+          "userId": "716f16dc-750d-4bfc-b1d7-874388205790",
+          "status": "FullFilled",
+          "imageURL": "/Files/PunchCardSetting/17/bdd173a3-6126-492b-82f8-9edba0d5e573.jpg",
+          "productId": 1,
+          "product": "product 1"
+        },
+        {
+          "id": 3,
+          "settingId": 2,
+          "userId": "716f16dc-750d-4bfc-b1d7-874388205790",
+          "status": "FullFilled",
+          "imageURL": "/Files/PunchCardSetting/17/bdd173a3-6126-492b-82f8-9edba0d5e573.jpg",
+          "productId": 1,
+          "product": "product 1"
+        },
+        {
+          "id": 4,
+          "settingId": 2,
+          "userId": "716f16dc-750d-4bfc-b1d7-874388205790",
+          "status": "FullFilled",
+          "imageURL": "/Files/PunchCardSetting/17/bdd173a3-6126-492b-82f8-9edba0d5e573.jpg",
+          "productId": 1,
+          "product": "product 1"
+        },
+        {
+          "id": 0,
+          "settingId": 2,
+          "userId": "716f16dc-750d-4bfc-b1d7-874388205790",
+          "status": "Reward",
+          "imageURL": "/Files/PunchCardSetting/17/bdd173a3-6126-492b-82f8-9edba0d5e573.jpg",
+          "productId": 2,
+          "product": "Product 3"
+        }
+      ];
 
       change(firstItems, status: RxStatus.success());
     } on EmptyDataException {
@@ -308,7 +366,7 @@ class CupsBoxView extends GetView<CupsBoxController> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Image.network(
-                          snapshot[index]["emptyUrl"].toString(),
+                          snapshot[index]["imageURL"].toString(),
                           width: 80,
                           height: 80,
                           fit: BoxFit.cover,
@@ -317,30 +375,30 @@ class CupsBoxView extends GetView<CupsBoxController> {
                           },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.network(
-                          snapshot[index]["fullFilledUrl"].toString(),
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.cover,
-                          errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                            return Icon(Icons.error); // Displays an error icon if the image fails to load
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.network(
-                          snapshot[index]["simiFilledUrl"].toString(),
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.cover,
-                          errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                            return Icon(Icons.error); // Displays an error icon if the image fails to load
-                          },
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Image.network(
+                      //     snapshot[index]["fullFilledUrl"].toString(),
+                      //     width: 80,
+                      //     height: 80,
+                      //     fit: BoxFit.cover,
+                      //     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                      //       return Icon(Icons.error); // Displays an error icon if the image fails to load
+                      //     },
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Image.network(
+                      //     snapshot[index]["simiFilledUrl"].toString(),
+                      //     width: 80,
+                      //     height: 80,
+                      //     fit: BoxFit.cover,
+                      //     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                      //       return Icon(Icons.error); // Displays an error icon if the image fails to load
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   );
                 },
