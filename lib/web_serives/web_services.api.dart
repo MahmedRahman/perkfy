@@ -91,16 +91,15 @@ class WebServices {
     );
   }
 
-  Future<ResponseModel> getCups() async {
+  Future<ResponseModel> getCups({required userId}) async {
     return await ApiManger().execute(
-      url:
-          "${API.url}PunchCardSetting/GetPaged?pageId=0&pageSize=10&searchPattern&sortColumn=Id&sortDirection=0&statusId=1&brandId=1",
+      url: "${API.url}Transaction/GetUserBalanceCards?userId=$userId",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
   }
 
-  //
+
 
   Future<ResponseModel> getQoute() async {
     return await ApiManger().execute(

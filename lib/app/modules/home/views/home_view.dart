@@ -269,65 +269,11 @@ class CupsBoxController extends GetxController with StateMixin {
 
   void getCups() async {
     try {
-      ResponseModel responseModel = await WebServices().getCups();
-      var firstItems = [
-        {
-          "id": 0,
-          "settingId": 2,
-          "userId": "716f16dc-750d-4bfc-b1d7-874388205790",
-          "status": "FullFilled",
-          "imageURL": "/Files/PunchCardSetting/17/bdd173a3-6126-492b-82f8-9edba0d5e573.jpg",
-          "productId": 1,
-          "product": "product 1"
-        },
-        {
-          "id": 1,
-          "settingId": 2,
-          "userId": "716f16dc-750d-4bfc-b1d7-874388205790",
-          "status": "FullFilled",
-          "imageURL": "/Files/PunchCardSetting/17/bdd173a3-6126-492b-82f8-9edba0d5e573.jpg",
-          "productId": 1,
-          "product": "product 1"
-        },
-        {
-          "id": 2,
-          "settingId": 2,
-          "userId": "716f16dc-750d-4bfc-b1d7-874388205790",
-          "status": "FullFilled",
-          "imageURL": "/Files/PunchCardSetting/17/bdd173a3-6126-492b-82f8-9edba0d5e573.jpg",
-          "productId": 1,
-          "product": "product 1"
-        },
-        {
-          "id": 3,
-          "settingId": 2,
-          "userId": "716f16dc-750d-4bfc-b1d7-874388205790",
-          "status": "FullFilled",
-          "imageURL": "/Files/PunchCardSetting/17/bdd173a3-6126-492b-82f8-9edba0d5e573.jpg",
-          "productId": 1,
-          "product": "product 1"
-        },
-        {
-          "id": 4,
-          "settingId": 2,
-          "userId": "716f16dc-750d-4bfc-b1d7-874388205790",
-          "status": "FullFilled",
-          "imageURL": "/Files/PunchCardSetting/17/bdd173a3-6126-492b-82f8-9edba0d5e573.jpg",
-          "productId": 1,
-          "product": "product 1"
-        },
-        {
-          "id": 0,
-          "settingId": 2,
-          "userId": "716f16dc-750d-4bfc-b1d7-874388205790",
-          "status": "Reward",
-          "imageURL": "/Files/PunchCardSetting/17/bdd173a3-6126-492b-82f8-9edba0d5e573.jpg",
-          "productId": 2,
-          "product": "Product 3"
-        }
-      ];
+      ResponseModel responseModel = await WebServices().getCups(
+        userId: Get.find<AuthService>().user["id"].toString(),
+      );
 
-      change(firstItems, status: RxStatus.success());
+      change(responseModel.data["data"], status: RxStatus.success());
     } on EmptyDataException {
       change(null, status: RxStatus.empty());
     } catch (e) {
@@ -361,45 +307,30 @@ class CupsBoxView extends GetView<CupsBoxController> {
               children: List.generate(
                 snapshot.length, // Assuming 'snapshot.length' is the number of images
                 (index) {
-                  return Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.network(
-                          snapshot[index]["imageURL"].toString(),
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.cover,
-                          errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                            return Icon(Icons.error); // Displays an error icon if the image fails to load
-                          },
+                  return InkWell(
+                    onTap: () {
+                      if (snapshot[index]["status"].toString().toLowerCase() == "Reward".toLowerCase()) {
+                        Get.toNamed(Routes.SCAN);
+                      } else {
+                        Get.snackbar("Done", snapshot[index]["status"].toString(), backgroundColor: Colors.amber);
+                      }
+                    },
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.network(
+                            snapshot[index]["imageURL"].toString(),
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                              return Icon(Icons.error); // Displays an error icon if the image fails to load
+                            },
+                          ),
                         ),
-                      ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Image.network(
-                      //     snapshot[index]["fullFilledUrl"].toString(),
-                      //     width: 80,
-                      //     height: 80,
-                      //     fit: BoxFit.cover,
-                      //     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                      //       return Icon(Icons.error); // Displays an error icon if the image fails to load
-                      //     },
-                      //   ),
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Image.network(
-                      //     snapshot[index]["simiFilledUrl"].toString(),
-                      //     width: 80,
-                      //     height: 80,
-                      //     fit: BoxFit.cover,
-                      //     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                      //       return Icon(Icons.error); // Displays an error icon if the image fails to load
-                      //     },
-                      //   ),
-                      // ),
-                    ],
+                      ],
+                    ),
                   );
                 },
               ),
@@ -410,13 +341,6 @@ class CupsBoxView extends GetView<CupsBoxController> {
     });
   }
 }
-
-// [
-//             SvgPicture.asset("assets/images/mug_1.svg"),
-//             SvgPicture.asset("assets/images/mug_2.svg"),
-//             SvgPicture.asset("assets/images/mug_1.svg"),
-//             SvgPicture.asset("assets/images/mug_1.svg"),
-//           ],
 
 class RewardsBoxController extends GetxController with StateMixin {
   @override
