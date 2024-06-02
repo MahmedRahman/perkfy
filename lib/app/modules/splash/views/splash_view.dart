@@ -28,6 +28,7 @@ class SplashView extends GetView<SplashController> {
             id: _authStorage.getUserId().toString(),
           );
           Get.find<AuthService>().user = responseModel.data["data"];
+          
           Get.offAndToNamed(Routes.HOME);
           return;
         }

@@ -9,16 +9,7 @@ class ScanController extends GetxController with StateMixin {
   @override
   void onInit() async {
     super.onInit();
-    await getSetting();
-  }
-
-  Future getSetting() async {
-    try {
-      ResponseModel responseModel = await WebServices().getPointSetting();
-      change(responseModel.data["data"], status: RxStatus.success());
-    } catch (e) {
-      change(e, status: RxStatus.error());
-    }
+    change(null, status: RxStatus.success());
   }
 
   Future getUserInfo() async {
@@ -41,20 +32,20 @@ class ScanController extends GetxController with StateMixin {
           "Error",
           responseModel.data["message"],
         );
-        getSetting();
+        change(null, status: RxStatus.success());
         return;
       }
       Get.snackbar("Done", responseModel.data["message"], backgroundColor: Colors.amber);
-      await getSetting();
+      change(null, status: RxStatus.success());
       await getUserInfo();
       Get.toNamed(Routes.HOME);
     } catch (e) {
       Get.snackbar(
-        "decrypting",
-        "An error occurred while decrypting the transaction data",
+        "Error in scanning",
+        "Kindly scan again",
         backgroundColor: Colors.red,
       );
-      await getSetting();
+      change(null, status: RxStatus.success());
     }
   }
 }

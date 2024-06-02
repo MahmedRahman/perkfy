@@ -43,6 +43,17 @@ class RewardsView extends GetView<RewardsController> {
             ),
           );
         },
+        onEmpty: Container(
+          child: Center(
+            child: Text(
+              "No Rewards",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -44,8 +44,8 @@ class NewpasswordController extends GetxController with StateMixin {
 
       // }
 
-      Get.snackbar("Done ", "${responseModel.data["data"].toString()}");
-      Get.toNamed(Routes.SIGNIN);
+      Get.snackbar("Done ", "${responseModel.data["message"].toString()}");
+      Get.offAndToNamed(Routes.SIGNIN);
       change(null, status: RxStatus.success());
     } catch (e) {
       Get.snackbar("Done ", "${e.toString()}");

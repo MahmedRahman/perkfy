@@ -31,10 +31,10 @@ class SigninView extends GetView<SigninController> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                CustomTitle(Title: "Welcome\nBack!"),
+                CustomTitle(Title: "Welcome\nback!"),
                 SizedBox(height: 20),
                 CustomTextField(
-                  label: 'Mobile Number',
+                  label: 'Mobile number',
 
                   controller: phoneController,
                   onChanged: (value) {},
@@ -61,8 +61,6 @@ class SigninView extends GetView<SigninController> {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a password';
-                    } else if (value.length < 8) {
-                      return 'Password must be at least 8 characters';
                     }
                     return null;
                   },
@@ -74,9 +72,9 @@ class SigninView extends GetView<SigninController> {
                     onTap: () {
                       Get.toNamed(Routes.FORGETPASSWORD);
                       // Add action for forgot password
-                      print("Forgot Password Tapped");
+                      print("Forgot password tapped");
                     },
-                    child: Text("Forget Password?",
+                    child: Text("Forget password?",
                         style: TextStyle(color: Colors.black, decoration: TextDecoration.underline)),
                   ),
                 ),
@@ -98,7 +96,7 @@ class SigninView extends GetView<SigninController> {
                   child: InkWell(
                     onTap: () {
                       Get.toNamed(Routes.SIGNUP);
-                      print('Don’t have account ? Create Account');
+                      print('Don’t have account ? create account');
                     },
                     child: Text.rich(
                       TextSpan(
@@ -112,7 +110,7 @@ class SigninView extends GetView<SigninController> {
                             text: 'Don’t have account ? ',
                           ),
                           TextSpan(
-                            text: 'Create Account',
+                            text: 'Create account',
                             style: TextStyle(
                               decoration: TextDecoration.underline,
                             ),

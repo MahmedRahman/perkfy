@@ -96,7 +96,7 @@ Widget RewardsCard({
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
-                        'Collect ${collect} stars for a reward',
+                        '⁠Collect ${collect.toString()} stars to get this reward',
                         style: TextStyle(
                           fontSize: 15.0,
                         ),

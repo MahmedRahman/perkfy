@@ -46,9 +46,9 @@ LayoutTemplate({
         BottomNavigationBarItem(
           icon: currentIndex == 1
               ? SvgPicture.asset(
-                  "assets/images/scan_select.svg",
+                  "assets/images/scan.svg",
                 )
-              : SvgPicture.asset("assets/images/scan.svg"),
+              : SvgPicture.asset("assets/images/scan_select.svg"),
           label: "Scan",
         ),
         BottomNavigationBarItem(

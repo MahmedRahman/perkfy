@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:perkfy/app/modules/home/controllers/home_controller.dart';
 import 'package:perkfy/app/modules/qr_scan/views/qr_scan_view.dart';
 import 'package:perkfy/shared/component/custom_app_bar.dart';
 
@@ -46,14 +47,16 @@ class ScanView extends GetView<ScanController> {
                 SizedBox(
                   height: 12,
                 ),
-                Text(
-                  'Collect ${snapshot["gainPoints"]} Stars per ${snapshot["gainMoney"]}EGP',
-                  style: TextStyle(
-                    fontFamily: 'Metropolis',
-                    fontSize: 12.0,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                Obx(() {
+                  return Text(
+                    'Collect ${KgainPoints.value.toString()} stars per ${KgainMoney.value.toString()} EGP',
+                    style: TextStyle(
+                      fontFamily: 'Metropolis',
+                      fontSize: 12.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  );
+                }),
                 SizedBox(
                   height: 45,
                 ),
@@ -70,8 +73,8 @@ class ScanView extends GetView<ScanController> {
                       controller.AddDycrypted(encryptedString: result);
                     } else {
                       Get.snackbar(
-                        "Error",
-                        "No Data",
+                        "Error in scanning",
+                        "Kindly scan again",
                       );
                     }
                   },

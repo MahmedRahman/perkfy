@@ -64,21 +64,26 @@ class OnboardingView extends GetView<OnboardingController> {
                         ),
 
                         CustomListTile(
-                          title: "Collect Stars When Placing your order",
-                          subtitle: "Collect 4 Stars Per 100 EGP when grabbing your social Speciality coffee favorites",
+                          title: "Collect stars When Placing your order".capitalizeFirst.toString(),
+                          subtitle: "Collect 4 stars Per 100 EGP when grabbing your Dark Solution coffee favorites"
+                              .capitalizeFirst
+                              .toString(),
                           icon: "assets/images/image1.svg",
                         ),
 
                         CustomListTile(
-                          title: "Redeem Stars for free drink",
-                          subtitle: "Every 250 Stars gets you a free Drink. Any drink. Any size!",
+                          title: "Redeem Stars for free drink".capitalizeFirst.toString(),
+                          subtitle:
+                              "Every 250 Stars gets you a free Drink. Any drink. Any size!".capitalizeFirst.toString(),
                           icon: "assets/images/image2.svg",
                         ),
 
                         CustomListTile(
-                          title: "Get to Gold",
+                          title: "Get to Gold".capitalizeFirst.toString(),
                           subtitle:
-                              "750 Stars gets you to gold level. Enjoy a free drink on your birthday exclusive offers and other exciting benefits.",
+                              "750 Stars gets you to gold level. Enjoy a free drink on your birthday exclusive offers and other exciting benefits."
+                                  .capitalizeFirst
+                                  .toString(),
                           icon: "assets/images/image3.svg",
                         ),
                         // Add more text widgets as needed

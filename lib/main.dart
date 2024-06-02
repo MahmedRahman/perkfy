@@ -23,7 +23,6 @@ void main() async {
 
   Get.lazyPut(() => HomeController());
 
-  
   Get.lazyPut(() => ScanController());
   Get.lazyPut(() => RewardsBoxController());
   Get.lazyPut(() => StoresController());
@@ -41,8 +40,12 @@ void main() async {
       debugShowCheckedModeBanner: false,
       transitionDuration: Duration.zero,
       theme: ThemeData(
-        fontFamily: "MetropolisMedium",
-      ),
+          fontFamily: "MetropolisMedium",
+          inputDecorationTheme: InputDecorationTheme(
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+            color: Colors.black,
+          )))),
     ),
   );
 }

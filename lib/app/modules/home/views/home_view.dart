@@ -12,9 +12,10 @@ import 'package:perkfy/web_serives/web_services.api.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  // const HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.put(HomeController());
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
@@ -33,141 +34,141 @@ class HomeView extends GetView<HomeController> {
                 SizedBox(
                   height: 19,
                 ),
-                SvgPicture.asset(
-                  "assets/images/logo.svg",
-                  width: 80,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SvgPicture.asset(
+                    "assets/images/logo.svg",
+                    width: 80,
+                  ),
                 ),
-
-                Row(
-                  children: [
-                    Text(
-                      'Rewards Stars',
-                      style: TextStyle(fontSize: 14.0, color: Color(0xffCDA259)),
-                    ),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Stack(
-                        children: [
-                          CircularPercentIndicator(
-                            radius: 35.0,
-                            lineWidth: 4.0,
-                            percent: (() {
-                              double value = Get.find<AuthService>().user["nearestRewordProgress"]?.toDouble() ?? 0.0;
-                              return value.clamp(0.0, 1.0); // Ensuring the value is between 0.0 and 1.0
-                            })(),
-                            arcType: ArcType.FULL,
-                            center: Image.asset(
-                              'assets/images/cup_home_progress.png',
-                              width: 40,
-                              height: 45,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      Container(
+                        //color: Colors.red,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  //width: Get.widt,
+                                  // color: Colors.red,
+                                  height: 60,
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Text(
+                                      'Rewards Stars',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Color(0xffCDA259),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: 60,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '${Get.find<AuthService>().user["points"].toString()}',
+                                        style: TextStyle(
+                                          fontFamily: 'Metropolis',
+                                          fontSize: 38.0,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      SvgPicture.asset(
+                                        "assets/images/start.svg",
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Obx(() {
+                                  return Container(
+                                    width: 200,
+                                    child: Text(
+                                      'Collect ${KgainPoints.value} Stars for every ${KgainMoney.value}EGP Spent',
+                                      style: TextStyle(
+                                        fontSize: 11.0,
+                                        color: const Color(0xFFEFEFEF),
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.clip,
+                                    ),
+                                  );
+                                }),
+                              ],
                             ),
-                            progressColor: Color(0xffCDA259),
-                            arcBackgroundColor: Colors.white,
-                          ),
-                        ],
+                            Spacer(),
+                            Column(
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                                  child: Stack(
+                                    children: [
+                                      CircularPercentIndicator(
+                                        radius: 35.0,
+                                        lineWidth: 4.0,
+                                        percent: (() {
+                                          double value =
+                                              Get.find<AuthService>().user["nearestRewordProgress"]?.toDouble() ?? 0.0;
+                                          return value.clamp(0.0, 1.0); // Ensuring the value is between 0.0 and 1.0
+                                        })(),
+                                        arcType: ArcType.FULL,
+                                        center: Image.asset(
+                                          'assets/images/cup_home_progress.png',
+                                          width: 40,
+                                          height: 45,
+                                        ),
+                                        progressColor: Color(0xffCDA259),
+                                        arcBackgroundColor: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '${Get.find<AuthService>().user["nearestPoints"].toString()}',
+                                      style: TextStyle(
+                                        fontFamily: 'Metropolis',
+                                        fontSize: 38.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    SvgPicture.asset(
+                                      "assets/images/start.svg",
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  'Until next reward',
+                                  style: TextStyle(
+                                    fontSize: 11.0,
+                                    color: const Color(0xFFEFEFEF),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              '${Get.find<AuthService>().user["points"].toString()}',
-                              style: TextStyle(
-                                fontFamily: 'Metropolis',
-                                fontSize: 38.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            SvgPicture.asset(
-                              "assets/images/start.svg",
-                            ),
-                          ],
-                        ),
-                        Text(
-                          'Collect 4 Stars for every 100EGP Spent',
-                          style: TextStyle(
-                            fontSize: 11.0,
-                            color: const Color(0xFFEFEFEF),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              '${Get.find<AuthService>().user["nearestPoints"].toString()}',
-                              style: TextStyle(
-                                fontFamily: 'Metropolis',
-                                fontSize: 38.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            SvgPicture.asset(
-                              "assets/images/start.svg",
-                            ),
-                          ],
-                        ),
-                        Text(
-                          'Until next reward',
-                          style: TextStyle(
-                            fontSize: 11.0,
-                            color: const Color(0xFFEFEFEF),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                  ],
-                ),
-
-                // Row(
-                //   children: [
-
-                //     Spacer(),
-                //     Text(
-                //       "Until next reward",
-                //       style: TextStyle(
-                //         fontSize: 11.0,
-                //         color: const Color(0xFFEFEFEF),
-                //       ),
-                //     )
-                //   ],
-                // ),
-
-//  Spacer(),
-//                     Text(
-//                       '${Get.find<AuthService>().user["nearestPoints"].toString()}',
-//                       style: TextStyle(
-//                         fontSize: 38.0,
-//                         color: Colors.white,
-//                         fontWeight: FontWeight.w500,
-//                       ),
-//                     ),
-
                 SizedBox(
                   height: 20,
                 )
@@ -290,7 +291,7 @@ class CupsBoxView extends GetView<CupsBoxController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Collect To get free hot drink',
+            'Collect To get free drink',
             style: TextStyle(
               fontFamily: 'Metropolis',
               fontSize: 15.0,
@@ -300,40 +301,37 @@ class CupsBoxView extends GetView<CupsBoxController> {
           SizedBox(
             height: 18,
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(
-                snapshot.length, // Assuming 'snapshot.length' is the number of images
-                (index) {
-                  return InkWell(
-                    onTap: () {
-                      if (snapshot[index]["status"].toString().toLowerCase() == "Reward".toLowerCase()) {
-                        Get.toNamed(Routes.SCAN);
-                      } else {
-                        Get.snackbar("Done", snapshot[index]["status"].toString(), backgroundColor: Colors.amber);
-                      }
-                    },
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.network(
-                            snapshot[index]["imageURL"].toString(),
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                              return Icon(Icons.error); // Displays an error icon if the image fails to load
-                            },
-                          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(
+              snapshot.length, // Assuming 'snapshot.length' is the number of images
+              (index) {
+                return InkWell(
+                  onTap: () {
+                    if (snapshot[index]["status"].toString().toLowerCase() == "Reward".toLowerCase()) {
+                      Get.toNamed(Routes.SCAN);
+                    } else {
+                      //  Get.snackbar("Done", snapshot[index]["status"].toString(), backgroundColor: Colors.amber);
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.network(
+                          snapshot[index]["imageURL"].toString(),
+                          width: Get.width / 7,
+                          height: 80,
+                          fit: BoxFit.cover,
+                          errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                            return Icon(Icons.error); // Displays an error icon if the image fails to load
+                          },
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           )
         ],
@@ -372,7 +370,7 @@ class RewardsBoxView extends GetView<RewardsBoxController> {
           Row(
             children: [
               Text(
-                'Your Available Rewards',
+                'Available rewards',
                 style: TextStyle(
                   fontFamily: 'Metropolis',
                   fontSize: 15.0,

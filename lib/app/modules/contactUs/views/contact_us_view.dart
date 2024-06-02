@@ -9,11 +9,9 @@ import '../controllers/contact_us_controller.dart';
 
 class ContactUsView extends GetView<ContactUsController> {
   final TextEditingController nameController = TextEditingController(text: '');
-  final TextEditingController phoneNumberController =
-      TextEditingController(text: '');
+  final TextEditingController phoneNumberController = TextEditingController(text: '');
   final TextEditingController emailController = TextEditingController(text: '');
-  final TextEditingController messageController =
-      TextEditingController(text: '');
+  final TextEditingController messageController = TextEditingController(text: '');
   ContactUsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -28,7 +26,7 @@ class ContactUsView extends GetView<ContactUsController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Send Us a message',
+              'Send us a message',
               style: TextStyle(
                 fontSize: 17.0,
                 color: const Color(0xFF221D1D),
@@ -42,16 +40,14 @@ class ContactUsView extends GetView<ContactUsController> {
               label: 'Name',
               onChanged: (value) {},
               controller: nameController,
-              borderColor: Color(
-                  0xffE6EAF0), // You can specify different colors for different fields
+              borderColor: Color(0xffE6EAF0), // You can specify different colors for different fields
             ),
             SizedBox(height: 20),
             CustomTextField(
               label: 'Phone Number',
               onChanged: (value) {},
               controller: phoneNumberController,
-              borderColor: Color(
-                  0xffE6EAF0), // You can specify different colors for different fields
+              borderColor: Color(0xffE6EAF0), // You can specify different colors for different fields
               keyboardType: TextInputType.phone,
               validator: (value) {
                 if (value != null && value.length != 10) {
@@ -65,8 +61,7 @@ class ContactUsView extends GetView<ContactUsController> {
               label: 'Email address',
               controller: emailController,
               onChanged: (value) {},
-              borderColor: Color(
-                  0xffE6EAF0), // You can specify different colors for different fields
+              borderColor: Color(0xffE6EAF0), // You can specify different colors for different fields
               keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value != null && !value.contains('@')) {
@@ -80,8 +75,7 @@ class ContactUsView extends GetView<ContactUsController> {
               label: 'Message',
               controller: messageController,
               onChanged: (value) {},
-              borderColor: Color(
-                  0xffE6EAF0), // You can specify different colors for different fields
+              borderColor: Color(0xffE6EAF0), // You can specify different colors for different fields
             ),
             Spacer(),
             SizedBox(
@@ -89,8 +83,7 @@ class ContactUsView extends GetView<ContactUsController> {
               child: AppButton(
                 text: "Send Message",
                 onPressed: () async {
-                  ResponseModel responseModel =
-                      await WebServices().contactUsMessage(
+                  ResponseModel responseModel = await WebServices().contactUsMessage(
                     email: emailController.text,
                     name: nameController.text,
                     phoneNumber: phoneNumberController.text,
