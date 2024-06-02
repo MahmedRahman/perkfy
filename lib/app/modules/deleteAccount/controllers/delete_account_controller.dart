@@ -20,7 +20,7 @@ class DeleteAccountController extends GetxController {
         onPressed: deleteAccount,
         child: Text("Yes, Delete"),
         style: ElevatedButton.styleFrom(
-          primary: Colors.red, // Button color
+          backgroundColor: Colors.red, // Button color
         ),
       ),
       cancel: TextButton(
